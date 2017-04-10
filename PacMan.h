@@ -1,20 +1,28 @@
+#include "Map.h"
+#include "Ghost.h"
+
 class PacMan{
 	private:
 	string urlImage;
-	int coordinates x,y;
-	int** mapShape;
+	int x,y;
+	int previous = 0;
+	int score = 0;
+	int lifes = 3;
 	
 public:
-	PacMan();
-	~PacMan();
-	int getCoordinates();
+	PacMan(Map&);
+	//~PacMan();
+	int getCoordinateX();
+	int getCoordinateY();
 	string getUrlImage();
 	void setUrlImage(string);
 	void setCoordinateX(int);
 	void setCoordinateY(int);
-	void MoveLeft(int**);
-	void MoveUp(int**);
-	void MoveDown(int**);
-	void MoveRight(int**);
-	bool CheckCollision(int **, Ghost*);
+	bool MoveLeft(Map&);
+	bool MoveUp(Map&);
+	bool MoveDown(Map&);
+	bool MoveRight(Map&);
+	void printScore();
+	bool CheckCollision(Ghost, Ghost, Ghost,Ghost);
+	inline int getLifes(){ return lifes; }
 };
