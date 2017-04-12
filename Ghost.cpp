@@ -9,8 +9,10 @@
 		dead = false;
 		exit = false;
 		randattuale = 0;
+		image = 75;
+		eatable = false;
 		
-		m.map[x][y] = 75;
+		m.map[x][y] = image;
 	}
 	
 	//Ghost::~Ghost();
@@ -31,18 +33,26 @@
 	void Ghost::setPrevious(int p) { previous = p; }
 	
 	bool Ghost::MoveLeft(Map& m) { 
-		if(m.map[x][y-1] == 0 || m.map[x][y-1] == 11){
+		if(m.map[x][y-1] == 0 || m.map[x][y-1] == 11 || m.map[x][y-1] == 15){
 			m.map[x][y] = previous;
 
+			if(x == 15 && (y-1) == 0 ){
+				m.map[x][y] = 0;
+				y = 29;
+			}
+
 			if(m.map[x][y-1] != 11){ previous = m.map[x][y-1]; } else { previous = 0; }
-			m.map[x][y-1] = 75;
+			m.map[x][y-1] = image;
 			y = y-1;
+			
+			
+
 			return true;
 		}
 		else if(m.map[x][y-1] == 9){
 			m.map[x][y] = previous;
 			previous = m.map[x][y-1]; 
-			m.map[x][y-1] = 75;
+			m.map[x][y-1] = image;
 			y = y-1;
 			return true;
 		}
@@ -50,7 +60,7 @@
 		else if(m.map[x][y-1] == 7){
 			m.map[x][y] = previous;
 			previous = m.map[x][y-1]; 
-			m.map[x][y-1] = 75;
+			m.map[x][y-1] = image;
 			y = y-1;
 			return true;
 		}
@@ -58,7 +68,7 @@
 		else if(m.map[x][y-1] == 8){
 			m.map[x][y] = previous;
 			previous = m.map[x][y-1]; 
-			m.map[x][y-1] = 75;
+			m.map[x][y-1] = image;
 			y = y-1;
 			return true;
 		}
@@ -68,10 +78,10 @@
 	}
 	
 	bool Ghost::MoveUp(Map& m){
-		if(m.map[x-1][y] == 0 || m.map[x-1][y] == 11){
+		if(m.map[x-1][y] == 0 || m.map[x-1][y] == 11 || m.map[x-1][y] == 15){
 			m.map[x][y] = previous;
 			if(m.map[x-1][y] != 11){ previous = m.map[x-1][y]; } else { previous = 0; } 
-			m.map[x-1][y] = 75;
+			m.map[x-1][y] = image;
 			x = x-1;
 			return true;
 		}
@@ -79,7 +89,7 @@
 		else if(m.map[x-1][y] == 9){
 			m.map[x][y] = previous; 
 			previous = m.map[x-1][y];
-			m.map[x-1][y] = 75;
+			m.map[x-1][y] = image;
 			x = x-1;
 
 			return true;
@@ -88,7 +98,7 @@
 		else if(m.map[x-1][y] == 7){
 			m.map[x][y] = previous; 
 			previous = m.map[x-1][y];
-			m.map[x-1][y] = 75;
+			m.map[x-1][y] = image;
 			this->exit = true;
 			x = x-1;
 			return true;
@@ -97,7 +107,7 @@
 		else if(m.map[x-1][y] == 8){
 			m.map[x][y] = previous;
 			previous = m.map[x-1][y]; 
-			m.map[x-1][y] = 75;
+			m.map[x-1][y] = image;
 			x = x-1;
 			this->exit = true;
 			return true;
@@ -109,11 +119,11 @@
 	}
 	
 	bool Ghost::MoveDown(Map& m){
-		if(m.map[x+1][y] == 0 || m.map[x+1][y] == 11){
+		if(m.map[x+1][y] == 0 || m.map[x+1][y] == 11 || m.map[x+1][y] == 15){
 			m.map[x][y] = previous;
 			if(m.map[x][y] == 7 || m.map[x][y] == 8) { return false; }
 			if(m.map[x+1][y] != 11){ previous = m.map[x+1][y]; } else { previous = 0; } 
-			m.map[x+1][y] = 75;
+			m.map[x+1][y] = image;
 			x = x+1;
 			return true;
 		}
@@ -121,7 +131,7 @@
 		else if(m.map[x+1][y] == 9){
 			m.map[x][y] = previous;
 			previous = m.map[x+1][y]; 
-			m.map[x+1][y] = 75;
+			m.map[x+1][y] = image;
 			x = x+1;
 			return true;
 		}
@@ -129,7 +139,7 @@
 		else if(m.map[x+1][y] == 7 && !(exit)){
 			m.map[x][y] = previous;
 			previous = m.map[x+1][y]; 
-			m.map[x+1][y] = 75;
+			m.map[x+1][y] = image;
 			x = x+1;
 			return true;
 		}
@@ -137,7 +147,7 @@
 		else if(m.map[x+1][y] == 8 && !(exit)){
 			m.map[x][y] = previous;
 			previous = m.map[x+1][y]; 
-			m.map[x+1][y] = 75;
+			m.map[x+1][y] = image;
 			x = x+1;
 			return true;
 		}
@@ -148,17 +158,26 @@
 
 	
 	bool Ghost::MoveRight(Map& m){ 
-		if(m.map[x][y+1] == 0 || m.map[x][y+1] == 11){
+		if(m.map[x][y+1] == 0 || m.map[x][y+1] == 11 || m.map[x][y+1] == 15){
 			m.map[x][y] = previous;
+			
+			if(x == 15 && (y+1) == 29 ){
+				m.map[x][y] = 0;
+				y = 0;
+			}
+
 			if(m.map[x][y+1] != 11){ previous = m.map[x][y+1]; } else { previous = 0; } 
-			m.map[x][y+1] = 75;
+			m.map[x][y+1] = image;
 			y = y+1;
+
+			
+
 			return true;
 		}
 		else if(m.map[x][y+1] == 9){
 			m.map[x][y] = previous;
 			previous = m.map[x][y+1];  
-			m.map[x][y+1] = 75;
+			m.map[x][y+1] = image;
 			y = y+1;
 			return true;
 		}
@@ -166,7 +185,7 @@
 		else if(m.map[x][y+1] == 7){
 			m.map[x][y] = previous;
 			previous = m.map[x][y+1];  
-			m.map[x][y+1] = 75;
+			m.map[x][y+1] = image;
 			y = y+1;
 			return true;
 		}
@@ -174,7 +193,7 @@
 		else if(m.map[x][y+1] == 8){
 			m.map[x][y] = previous;
 			previous = m.map[x][y+1];  
-			m.map[x][y+1] = 75;
+			m.map[x][y+1] = image;
 			y = y+1;
 			return true;
 		}
@@ -186,7 +205,7 @@
 	}
 
 	bool Ghost::checkUp(Map& m){
-		if(m.map[x-1][y] != 0 && m.map[x-1][y] != 9 && m.map[x-1][y] != 11 && m.map[x-1][y] != 75 && m.map[x-1][y] != 7 && m.map[x-1][y] != 8) { return false; }
+		if(m.map[x-1][y] != 0 && m.map[x-1][y] != 9 && m.map[x-1][y] != 11 && m.map[x-1][y] != image && m.map[x-1][y] != 7 && m.map[x-1][y] != 8) { return false; }
 		return true;
 	}
 
@@ -206,6 +225,11 @@
 	}
 
 	void Ghost::moveGhost(Map& m){
+		this->checkPacmanUp(m);
+		this->checkPacmanDown(m);
+		this->checkPacmanLeft(m);
+		this->checkPacmanRight(m);
+
 		if(randattuale == 0 && (checkUp(m))) { this->MoveUp(m);}
 		else if(randattuale == 1 && (checkLeft(m))) { this->MoveLeft(m);}
 		else if(randattuale == 2 && (checkRight(m))) { this->MoveRight(m);}
@@ -213,6 +237,8 @@
 
 		else {
 				int v1 = rand() % 4;
+				
+
 				if(v1 == 0){
 					this->MoveUp(m);
 					randattuale = v1;
@@ -230,4 +256,36 @@
 					randattuale = v1;
 				}
 			}
+	}
+
+	bool Ghost::checkPacmanUp(Map& m) {
+		for(int i = x; i > (x - 10) && i > 0; i--) {
+			if(m.map[i][y] == 11) {  this->randattuale = 0; return true;}
+			else if(m.map[i][y] == 1 || m.map[i][y] == 2 || m.map[i][y] == 3 || m.map[i][y] == 4 || m.map[i][y] == 5 || m.map[i][y] == 6 || m.map[i][y] == 7 || m.map[i][y] == 8) { return false; }
+		}
+		return false;
+	}
+
+	bool Ghost::checkPacmanDown(Map& m) {
+		for(int i = x; i < (x + 10) && i < 33; i++) {
+			if(m.map[i][y] == 11) {  this->randattuale = 3; return true; }
+			else if(m.map[i][y] == 1 || m.map[i][y] == 2 || m.map[i][y] == 3 || m.map[i][y] == 4 || m.map[i][y] == 5 || m.map[i][y] == 6 || m.map[i][y] == 7 || m.map[i][y] == 8) { return false; }
+		}
+		return false;
+	}
+
+	bool Ghost::checkPacmanLeft(Map& m) {
+		for(int i = y; i > (y - 10) && i > 0; i--) {
+			if(m.map[x][i] == 11) {  this->randattuale = 1; return true; }
+			else if(m.map[x][i] == 1 || m.map[x][i] == 2 || m.map[x][i] == 3 || m.map[x][i] == 4 || m.map[x][i] == 5 || m.map[x][i] == 6 || m.map[x][i] == 7 || m.map[x][i] == 8) { return false; }
+		}
+		return false;
+	}
+
+	bool Ghost::checkPacmanRight(Map& m) {
+		for(int i = y; i < (y + 10) && i < 30; i++) {
+			if(m.map[x][i] == 11) {  this->randattuale = 2; return true; }
+			else if(m.map[x][i] == 1 || m.map[x][i] == 2 || m.map[x][i] == 3 || m.map[x][i] == 4 || m.map[x][i] == 5 || m.map[x][i] == 6 || m.map[x][i] == 7 || m.map[x][i] == 8) { return false; }
+		}
+		return false;
 	}

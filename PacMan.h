@@ -5,9 +5,11 @@ class PacMan{
 	private:
 	string urlImage;
 	int x,y;
-	int previous = 0;
-	int score = 0;
-	int lifes = 3;
+	int previous;
+	int score;
+	int lifes;
+	int eated;
+
 	
 public:
 	PacMan(Map&);
@@ -24,5 +26,7 @@ public:
 	bool MoveRight(Map&);
 	void printScore();
 	bool CheckCollision(Ghost, Ghost, Ghost,Ghost);
+	bool eatGhost(Ghost&, Ghost&, Ghost&, Ghost&);
+	bool eatPill();
 	inline int getLifes(){ return lifes; }
 };

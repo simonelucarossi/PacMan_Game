@@ -11,6 +11,8 @@ private:
 	bool exit;
 	bool dead;
 	int randattuale;
+	bool eatable;
+	int image;
 	
 public:
 	Ghost(Map&, int, int);
@@ -29,8 +31,14 @@ public:
 	bool checkDown(Map&);
 	bool checkLeft(Map&);
 	bool checkRight(Map&);
+	bool checkPacmanUp(Map&);
+	bool checkPacmanDown(Map&);
+	bool checkPacmanLeft(Map&);
+	bool checkPacmanRight(Map&);
 	void setRandAttuale(int);
 	void setPrevious(int);
-
+	bool getEatable() { return eatable; }
+	void setEatable(bool x) { eatable = x; }
+	void setImage(int q) { image = q; }
 	inline int getPrevious(){ return previous; }
 };

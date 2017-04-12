@@ -49,9 +49,11 @@ void Map::stampa() {
 			if(map[i][j] == 7)
 				cout << RED << ":" << RESET << " ";
 			if(map[i][j] == 8)
-				cout << RED << "," << RESET << " ";
+				cout << RED << "-" << RESET << " ";
 			if(map[i][j] == 9)
 				cout << MAGENTA << "*" << RESET << " ";
+			if(map[i][j] == 15)
+				cout << MAGENTA << "O" << RESET << " ";
 			if(map[i][j] == 0)
 				cout << " " << " ";
 			if(map[i][j] == 11){
@@ -59,6 +61,9 @@ void Map::stampa() {
 			}
 			if(map[i][j] == 75){
 				cout << BLUE << "☺" << RESET << " ";   
+			}
+			if(map[i][j] == 76){
+				cout << RED << "☺" << RESET << " ";   
 			}
 		}
 	cout << endl;

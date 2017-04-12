@@ -23,15 +23,57 @@ int main() {
 		cin >> moveGhost;
 		if(moveGhost == 'a'){
 			p1.MoveLeft(mappa);
+			if(p1.eatPill()) {
+				g1.setEatable(true);
+				g2.setEatable(true);
+				g3.setEatable(true);
+				g4.setEatable(true);
+				g1.setImage(76);
+				g2.setImage(76);
+				g3.setImage(76);
+				g4.setImage(76);
+			}
 		}
 		if(moveGhost == 'w'){
 			p1.MoveUp(mappa);
+			if(p1.eatPill()) {
+				g1.setEatable(true);
+				g2.setEatable(true);
+				g3.setEatable(true);
+				g4.setEatable(true);
+				g1.setImage(76);
+				g2.setImage(76);
+				g3.setImage(76);
+				g4.setImage(76);
+			}
 		}
+
 		if(moveGhost == 's'){
 			p1.MoveDown(mappa);
+			if(p1.eatPill()) {
+				g1.setEatable(true);
+				g2.setEatable(true);
+				g3.setEatable(true);
+				g4.setEatable(true);
+				g1.setImage(76);
+				g2.setImage(76);
+				g3.setImage(76);
+				g4.setImage(76);
+			}
 		}
+		
 		if(moveGhost == 'd'){
 			p1.MoveRight(mappa);
+			if(p1.eatPill()) {
+				g1.setEatable(true);
+				g2.setEatable(true);
+				g3.setEatable(true);
+				g4.setEatable(true);
+				g1.setImage(76);
+				g2.setImage(76);
+				g3.setImage(76);
+				g4.setImage(76);
+			}
 		}
 		if(p1.CheckCollision(g1, g2, g3,g4)){
 			restart(mappa,p1,g1,g2,g3,g4);
@@ -43,9 +85,13 @@ int main() {
 			g3.moveGhost(mappa);
 			g4.moveGhost(mappa);
 			mappa.stampa();
-			if(p1.CheckCollision(g1, g2, g3,g4)){
-			restart(mappa,p1,g1,g2,g3,g4);
-			mappa.stampa();
+			if(p1.CheckCollision(g1, g2, g3,g4) && !(g1.getEatable())){
+				restart(mappa,p1,g1,g2,g3,g4);
+				mappa.stampa();
+			}
+			else if(p1.CheckCollision(g1, g2, g3,g4) && (g1.getEatable())) {
+				p1.eatGhost(g1,g2,g3,g4);
+				mappa.stampa();
 			}
 		}
 		if(p1.getLifes() > 0) { p1.printScore(); }
