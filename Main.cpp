@@ -75,10 +75,16 @@ int main() {
 				g4.setImage(76);
 			}
 		}
-		if(p1.CheckCollision(g1, g2, g3,g4)){
+		if(p1.CheckCollision(g1, g2, g3,g4) && !(g1.getEatable())){
 			restart(mappa,p1,g1,g2,g3,g4);
 			mappa.stampa();
 		}
+
+		else if(p1.CheckCollision(g1, g2, g3,g4) && (g1.getEatable())) {
+				p1.eatGhost(g1,g2,g3,g4,mappa);
+				mappa.stampa();
+		}
+
 		else{
 			g1.moveGhost(mappa);
 			g2.moveGhost(mappa);
@@ -90,15 +96,21 @@ int main() {
 				mappa.stampa();
 			}
 			else if(p1.CheckCollision(g1, g2, g3,g4) && (g1.getEatable())) {
-				p1.eatGhost(g1,g2,g3,g4);
+				p1.eatGhost(g1,g2,g3,g4,mappa);
 				mappa.stampa();
 			}
 		}
 		if(p1.getLifes() > 0) { p1.printScore(); }
 		else { cout << "        GAME OVER!"; }	
+
+
+	cout << "PacMan Cordinates: " << p1.getCoordinateX() << ":" << p1.getCoordinateY() << endl;
+	cout << "Ghost 1: " << g1.getCoordinateX() << ":" << g1.getCoordinateY() << " " << g1.getEatable() <<endl;
+	cout << "Ghost 2: " << g2.getCoordinateX() << ":" << g2.getCoordinateY() << " " << g2.getEatable() << endl;
+	cout << "Ghost 3: " << g3.getCoordinateX() << ":" << g3.getCoordinateY() << " " << g3.getEatable() << endl;
+	cout << "Ghost 4: " << g4.getCoordinateX() << ":" << g4.getCoordinateY() << " " << g4.getEatable() << endl;
 	}
 		
-
 
 
 

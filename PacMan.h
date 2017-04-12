@@ -26,7 +26,7 @@ public:
 	bool MoveRight(Map&);
 	void printScore();
 	bool CheckCollision(Ghost, Ghost, Ghost,Ghost);
-	bool eatGhost(Ghost&, Ghost&, Ghost&, Ghost&);
+	bool eatGhost(Ghost&, Ghost&, Ghost&, Ghost&, Map&);
 	bool eatPill();
 	inline int getLifes(){ return lifes; }
 };

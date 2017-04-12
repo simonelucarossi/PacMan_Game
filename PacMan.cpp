@@ -3,6 +3,7 @@
 PacMan::PacMan(Map& m) {
 		x = 22;
 		y = 13;
+
 		previous = 0;
 		score = 0;
 		lifes = 3;
@@ -141,29 +142,33 @@ PacMan::PacMan(Map& m) {
 		if(x == g4.getCoordinateX() && y == g4.getCoordinateY() && !(g4.getEatable())) { lifes--; return true; }
 	}
 
-	bool PacMan::eatGhost(Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4) {
+	bool PacMan::eatGhost(Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, Map& m) {
 		if(x == g1.getCoordinateX() && y == g1.getCoordinateY() && g1.getEatable()) { 
+			cerr << "CACCA";
 			score += (eated*200); 
 			eated++; 
-			g1.setImage(30);
+			g1.restartGhost(m);
 			return true; 
 		}
 		if(x == g2.getCoordinateX() && y == g2.getCoordinateY() && g2.getEatable()) { 
+			cerr << "CACCA";
 			score += (eated*200); 
 			eated++; 
-			g2.setImage(30);
+			g2.restartGhost(m);
 			return true; 
 		}
 		if(x == g3.getCoordinateX() && y == g3.getCoordinateY() && g3.getEatable()) { 
+			cerr << "CACCA";
 			score += (eated*200); 
 			eated++; 
-			g3.setImage(30);
+			g3.restartGhost(m);
 			return true;
 			}
 		if(x == g4.getCoordinateX() && y == g4.getCoordinateY() && g4.getEatable()) {
+		 cerr << "CACCA";
 		 score += (eated*200);
-		 eated++;
-		 g4.setImage(30); 
+		 eated++; 
+		 g4.restartGhost(m);
 		 return true; 
 		}
 	}

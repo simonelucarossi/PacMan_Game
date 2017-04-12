@@ -6,7 +6,7 @@ using namespace std;
 class Ghost {
 private:
 	string urlImage;
-	int x,y;
+	int x,y, xinit, yinit;
 	int previous;
 	bool exit;
 	bool dead;
@@ -40,5 +40,6 @@ public:
 	bool getEatable() { return eatable; }
 	void setEatable(bool x) { eatable = x; }
 	void setImage(int q) { image = q; }
+	bool restartGhost(Map&);
 	inline int getPrevious(){ return previous; }
 };

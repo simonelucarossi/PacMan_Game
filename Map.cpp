@@ -51,13 +51,13 @@ void Map::stampa() {
 			if(map[i][j] == 8)
 				cout << RED << "-" << RESET << " ";
 			if(map[i][j] == 9)
-				cout << MAGENTA << "*" << RESET << " ";
+				cout << MAGENTA << "🍟" << RESET << " ";
 			if(map[i][j] == 15)
-				cout << MAGENTA << "O" << RESET << " ";
+				cout << MAGENTA << "🍓" << RESET << " ";
 			if(map[i][j] == 0)
 				cout << " " << " ";
 			if(map[i][j] == 11){
-				cout << BOLDYELLOW << "ᴥ" << RESET << " ";   
+				cout << BOLDYELLOW << "🐒" << RESET << " ";   
 			}
 			if(map[i][j] == 75){
 				cout << BLUE << "☺" << RESET << " ";   

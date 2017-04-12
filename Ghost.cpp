@@ -5,6 +5,8 @@
 	Ghost::Ghost(Map& m, int xpassed, int ypassed) {
 		x = xpassed;
 		y = ypassed;
+		xinit = xpassed;
+		yinit  = ypassed;
 		previous = 0;
 		dead = false;
 		exit = false;
@@ -288,4 +290,15 @@
 			else if(m.map[x][i] == 1 || m.map[x][i] == 2 || m.map[x][i] == 3 || m.map[x][i] == 4 || m.map[x][i] == 5 || m.map[x][i] == 6 || m.map[x][i] == 7 || m.map[x][i] == 8) { return false; }
 		}
 		return false;
+	}
+
+	bool Ghost::restartGhost(Map& mappa) {
+		mappa.map[x][y] = 11;
+		x = xinit;
+		y = yinit;
+		mappa.map[x][y] = 75;
+		image = 75;
+		this->setRandAttuale(0);
+		this->setPrevious(0);
+		this->setEatable(false);
 	}
