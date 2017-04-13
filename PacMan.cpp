@@ -10,6 +10,7 @@ PacMan::PacMan(Map& m) {
 		eated = 0;
 		
 		m.map[x][y] = 11;
+		ghostCollision = NULL;
 	}
 	
 	//PacMan::~PacMan();
@@ -136,39 +137,44 @@ PacMan::PacMan(Map& m) {
 	}
 
 	bool PacMan::CheckCollision(Ghost g1, Ghost g2, Ghost g3,Ghost g4) {
-		if(x == g1.getCoordinateX() && y == g1.getCoordinateY() && !(g1.getEatable())) { lifes--; return true; }
-		if(x == g2.getCoordinateX() && y == g2.getCoordinateY() && !(g2.getEatable())) { lifes--; return true; }
-		if(x == g3.getCoordinateX() && y == g3.getCoordinateY() && !(g3.getEatable())) { lifes--; return true; }
-		if(x == g4.getCoordinateX() && y == g4.getCoordinateY() && !(g4.getEatable())) { lifes--; return true; }
+		if(x == g1.getCoordinateX() && y == g1.getCoordinateY() && !(g1.getEatable())) { ghostCollision = &g1; lifes--; return true; }
+		if(x == g2.getCoordinateX() && y == g2.getCoordinateY() && !(g2.getEatable())) { ghostCollision = &g2; lifes--; return true; }
+		if(x == g3.getCoordinateX() && y == g3.getCoordinateY() && !(g3.getEatable())) { ghostCollision = &g3; lifes--; return true; }
+		if(x == g4.getCoordinateX() && y == g4.getCoordinateY() && !(g4.getEatable())) { ghostCollision = &g4; lifes--; return true; }
+
+		if(x == g1.getCoordinateX() && y == g1.getCoordinateY() && (g1.getEatable())) { ghostCollision = &g1; return true; }
+		if(x == g2.getCoordinateX() && y == g2.getCoordinateY() && (g2.getEatable())) { ghostCollision = &g2; return true; }
+		if(x == g3.getCoordinateX() && y == g3.getCoordinateY() && (g3.getEatable())) { ghostCollision = &g3; return true; }
+		if(x == g4.getCoordinateX() && y == g4.getCoordinateY() && (g4.getEatable())) { ghostCollision = &g4; return true; }
 	}
 
 	bool PacMan::eatGhost(Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, Map& m) {
 		if(x == g1.getCoordinateX() && y == g1.getCoordinateY() && g1.getEatable()) { 
-			cerr << "CACCA";
+			eated++;
 			score += (eated*200); 
-			eated++; 
 			g1.restartGhost(m);
+			ghostCollision = NULL;
 			return true; 
 		}
 		if(x == g2.getCoordinateX() && y == g2.getCoordinateY() && g2.getEatable()) { 
-			cerr << "CACCA";
+			eated++;
 			score += (eated*200); 
-			eated++; 
 			g2.restartGhost(m);
+			ghostCollision = NULL;
 			return true; 
 		}
 		if(x == g3.getCoordinateX() && y == g3.getCoordinateY() && g3.getEatable()) { 
-			cerr << "CACCA";
+			eated++;
 			score += (eated*200); 
-			eated++; 
 			g3.restartGhost(m);
+			ghostCollision = NULL;
 			return true;
 			}
 		if(x == g4.getCoordinateX() && y == g4.getCoordinateY() && g4.getEatable()) {
-		 cerr << "CACCA";
+		 eated++;
 		 score += (eated*200);
-		 eated++; 
 		 g4.restartGhost(m);
+		 ghostCollision = NULL;
 		 return true; 
 		}
 	}
