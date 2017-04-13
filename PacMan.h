@@ -9,6 +9,7 @@ class PacMan{
 	int score;
 	int lifes;
 	int eated;
+	Ghost* ghostCollision;
 
 	
 public:
@@ -28,5 +29,6 @@ public:
 	bool CheckCollision(Ghost, Ghost, Ghost,Ghost);
 	bool eatGhost(Ghost&, Ghost&, Ghost&, Ghost&, Map&);
 	bool eatPill();
+	Ghost* getGhostCollision() { return ghostCollision; }
 	inline int getLifes(){ return lifes; }
 };
