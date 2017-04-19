@@ -1,0 +1,40 @@
+CheckCollision	PacMan.cpp	/^bool PacMan::CheckCollision(Ghost g1, Ghost g2, Gh/
+Game	Game.cpp	/^Game::Game() {$/
+Ghost	Ghost.cpp	/^Ghost::Ghost(Map& m, int xpassed, int ypassed) {$/
+MMain.cpp	Main.cpp	/^int main(int argc, char **argv) {$/
+Map	Map.cpp	/^Map::Map() { }$/
+MoveDown	Ghost.cpp	/^bool Ghost::MoveDown(Map& m){$/
+MoveLeft	Ghost.cpp	/^bool Ghost::MoveLeft(Map& m) {$/
+MoveRight	Ghost.cpp	/^bool Ghost::MoveRight(Map& m){$/
+MoveUp	Ghost.cpp	/^bool Ghost::MoveUp(Map& m){$/
+PacMan	PacMan.cpp	/^PacMan::PacMan(Map& m) {$/
+Renderer	Renderer.cpp	/^Renderer::Renderer() {$/
+checkDown	Ghost.cpp	/^bool Ghost::checkDown(Map& m){$/
+checkLeft	Ghost.cpp	/^bool Ghost::checkLeft(Map& m){$/
+checkPacmanDown	Ghost.cpp	/^bool Ghost::checkPacmanDown(Map& m) {$/
+checkPacmanLeft	Ghost.cpp	/^bool Ghost::checkPacmanLeft(Map& m) {$/
+checkPacmanRight	Ghost.cpp	/^bool Ghost::checkPacmanRight(Map& m) {$/
+checkPacmanUp	Ghost.cpp	/^bool Ghost::checkPacmanUp(Map& m) {$/
+checkRight	Ghost.cpp	/^bool Ghost::checkRight(Map& m){$/
+checkUp	Ghost.cpp	/^bool Ghost::checkUp(Map& m){$/
+draw	Renderer.cpp	/^void Renderer::draw(PacMan& pacman, Ghost& g1, Gho/
+eatGhost	PacMan.cpp	/^bool PacMan::eatGhost(Ghost& g1, Ghost& g2, Ghost&/
+eatPill	PacMan.cpp	/^bool PacMan::eatPill() {$/
+getCoordinateX	Ghost.cpp	/^int Ghost::getCoordinateX() { return x; }$/
+getCoordinateY	Ghost.cpp	/^int Ghost::getCoordinateY() { return y; }$/
+getUrlImage	Ghost.cpp	/^string Ghost::getUrlImage() { return urlImage; }$/
+initializeAllegro	Game.cpp	/^void Game::initializeAllegro() {$/
+loop	Game.cpp	/^void Game::loop() {$/
+moveGhost	Ghost.cpp	/^void Ghost::moveGhost(Map& m){$/
+nextFrame	PacMan.cpp	/^int PacMan::nextFrame() {$/
+nextStep	PacMan.cpp	/^void PacMan::nextStep(Map& map) {$/
+printScore	PacMan.cpp	/^void PacMan::printScore() {$/
+restart	Game.cpp	/^void Game::restart() {$/
+restartGhost	Ghost.cpp	/^bool Ghost::restartGhost(Map& mappa) {$/
+setCoordinateX	Ghost.cpp	/^void Ghost::setCoordinateX(int xP) { x = xP; }$/
+setCoordinateY	Ghost.cpp	/^void Ghost::setCoordinateY(int yP) { y = yP; }$/
+setDirection	PacMan.cpp	/^void PacMan::setDirection(int direction) {$/
+setGhostsToEatable	Game.cpp	/^void Game::setGhostsToEatable() {$/
+setPrevious	Ghost.cpp	/^void Ghost::setPrevious(int p) { previous = p; }$/
+setRandAttuale	Ghost.cpp	/^void Ghost::setRandAttuale(int rA) { randattuale =/
+setUrlImage	Ghost.cpp	/^void Ghost::setUrlImage(string c) { urlImage = c; /

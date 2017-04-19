@@ -1,3 +1,6 @@
+#ifndef GHOST_H_
+#define GHOST_H_
+
 #include <string>
 #include <iostream>
 #include "Map.h"
@@ -13,7 +16,7 @@ private:
 	int randattuale;
 	bool eatable;
 	int image;
-	
+
 public:
 	Ghost(Map&, int, int);
 	int getCoordinateX();
@@ -43,3 +46,5 @@ public:
 	bool restartGhost(Map&);
 	inline int getPrevious(){ return previous; }
 };
+
+#endif
