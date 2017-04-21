@@ -9,6 +9,7 @@ PacMan::PacMan(Map& m) {
     lifes = 3;
     frame = 0;
     eated = 0;
+    Pills = 235;
     direction = 1; // left
 
     m.map[x][y] = 11;
@@ -16,6 +17,7 @@ PacMan::PacMan(Map& m) {
 }
 
 //PacMan::~PacMan();
+int PacMan::getPills() { return Pills; }
 
 int PacMan::getCoordinateX() { return x; }
 int PacMan::getCoordinateY() { return y; }
@@ -50,7 +52,7 @@ void PacMan::nextStep(Map& map) {
 }
 
 bool PacMan::MoveLeft(Map& m) {
-    if(m.map[x][y-1] == 0 || m.map[x][y-1] == 75 || m.map[x][y-1] == 15){
+    if(m.map[x][y-1] == 0 || m.map[x][y-1] == 75 || m.map[x][y-1] == 77 || m.map[x][y-1] == 78 || m.map[x][y-1] == 79 || m.map[x][y-1] == 15){
         if(x == 15 && (y-1) == 0 ){
             m.map[x][y] = 0;
             y = 29;
@@ -63,6 +65,7 @@ bool PacMan::MoveLeft(Map& m) {
     }
     else if(m.map[x][y-1] == 9){
         score = score + 10;
+        Pills--;
         m.map[x][y] = 0;
         previous = m.map[x][y-1];
         m.map[x][y-1] = 11;
@@ -70,12 +73,19 @@ bool PacMan::MoveLeft(Map& m) {
         return true;
     }
 
+    else if(m.map[x][y-1] == 15){
+      Pills--;
+      return true;  
+    }
+
+
+
     return false;
 
 }
 
 bool PacMan::MoveUp(Map& m){
-    if(m.map[x-1][y] == 0 || m.map[x-1][y] == 75 || m.map[x-1][y] == 15){
+    if(m.map[x-1][y] == 0 || m.map[x-1][y] == 75 || m.map[x-1][y] == 77 || m.map[x-1][y] == 78 || m.map[x-1][y] == 79 || m.map[x-1][y] == 15){
         m.map[x][y] = 0;
         previous = m.map[x-1][y];
         m.map[x-1][y] = 11;
@@ -85,6 +95,7 @@ bool PacMan::MoveUp(Map& m){
 
     else if(m.map[x-1][y] == 9){
         score = score + 10;
+        Pills--;
         m.map[x][y] = 0;
         previous = m.map[x-1][y];
         m.map[x-1][y] = 11;
@@ -93,13 +104,18 @@ bool PacMan::MoveUp(Map& m){
         return true;
     }
 
+    else if(m.map[x-1][y] == 15){
+      Pills--;
+      return true;  
+    }
+
 
     return false;
 
 }
 
 bool PacMan::MoveDown(Map& m){
-    if(m.map[x+1][y] == 0 || m.map[x+1][y] == 75 || m.map[x+1][y] == 15){
+    if(m.map[x+1][y] == 0 || m.map[x+1][y] == 75 || m.map[x+1][y] == 77 || m.map[x+1][y] == 78 || m.map[x+1][y] == 79 || m.map[x+1][y] == 15){
         m.map[x][y] = 0;
         previous = m.map[x+1][y];
         m.map[x+1][y] = 11;
@@ -109,13 +125,17 @@ bool PacMan::MoveDown(Map& m){
 
     else if(m.map[x+1][y] == 9){
         score = score + 10;
+        Pills--;
         m.map[x][y] = 0;
         previous = m.map[x+1][y];
         m.map[x+1][y] = 11;
         x = x+1;
         return true;
     }
-
+    else if(m.map[x+1][y] == 15){
+      Pills--;
+      return true;  
+    }
 
     return false;
 
@@ -123,7 +143,7 @@ bool PacMan::MoveDown(Map& m){
 
 
 bool PacMan::MoveRight(Map& m){
-    if(m.map[x][y+1] == 0 || m.map[x][y+1] == 75 || m.map[x][y+1] == 15){
+    if(m.map[x][y+1] == 0 || m.map[x][y+1] == 75 || m.map[x][y+1] == 77 || m.map[x][y+1] == 78 || m.map[x][y+1] == 79 || m.map[x][y+1] == 15){
         if(x == 15 && (y+1) == 29){
             m.map[x][y] = 0;
             y = 0;
@@ -136,11 +156,16 @@ bool PacMan::MoveRight(Map& m){
     }
     else if(m.map[x][y+1] == 9){
         score = score + 10;
+        Pills--;
         m.map[x][y] = 0;
         previous = m.map[x][y+1];
         m.map[x][y+1] = 11;
         y = y+1;
         return true;
+    }
+    else if(m.map[x][y+1] == 15){
+      Pills--;
+      return true;  
     }
 
     return false;

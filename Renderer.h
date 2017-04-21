@@ -25,7 +25,10 @@ class Renderer {
         float getWidth() { return width; }
 
         void draw(PacMan&, Ghost&, Ghost&, Ghost&, Ghost&, Map&);
-        void drawInfo(PacMan&, ALLEGRO_FONT&);
+        void drawInfo(PacMan&, ALLEGRO_FONT&, ALLEGRO_FONT&);
+        void ChangePill(int&);
+        void changeEatableFrame(int&);
+        void drawDeathPacman(PacMan&, int);
 };
 
 #endif

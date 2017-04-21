@@ -13,12 +13,14 @@ private:
 	int previous;
 	bool exit;
 	bool dead;
+	int frame;
 	int randattuale;
 	bool eatable;
 	int image;
-
+	int movementFrame;
+	int ImageInit;
 public:
-	Ghost(Map&, int, int);
+	Ghost(Map&, int, int, int);
 	int getCoordinateX();
 	int getCoordinateY();
 	string getUrlImage();
@@ -45,6 +47,12 @@ public:
 	void setImage(int q) { image = q; }
 	bool restartGhost(Map&);
 	inline int getPrevious(){ return previous; }
+	int nextFrame();
+	int getFrame();
+	int getRandAttuale();
+	inline int getMovementFrame() { return movementFrame; }
+	void changeEatableFrame();
+	void changeMovementFrame();
 };
 
 #endif

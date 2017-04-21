@@ -3,10 +3,10 @@
 Game::Game() {
     this->mappa = new Map();
     this->renderer = new Renderer();
-    this->g1 = new Ghost((*mappa),15,15);
-    this->g2 = new Ghost((*mappa),15,16);
-    this->g3 = new Ghost((*mappa),15,13);
-    this->g4 = new Ghost((*mappa),15,14);
+    this->g1 = new Ghost((*mappa),15,15,75);
+    this->g2 = new Ghost((*mappa),15,16,77);
+    this->g3 = new Ghost((*mappa),15,13,78);
+    this->g4 = new Ghost((*mappa),15,14,79);
     this->p1 = new PacMan((*mappa));
 
     this->initializeAllegro();
@@ -51,6 +51,7 @@ void Game::loop() {
                 p1->nextStep(*mappa);
 
                 if(p1->eatPill()) {
+                    p1->setPrevious(0);
                     this->setGhostsToEatable();
                 }
 
@@ -58,6 +59,18 @@ void Game::loop() {
                     if(p1->getGhostCollision()->getEatable()) {
                         p1->eatGhost(*g1, *g2, *g3, *g4,*mappa);
                     } else {
+                        
+                            /* al_set_timer_speed(movementTimer,(1.0));
+                            al_set_timer_speed(animationTimer,(2.0));
+                            for(int q = 0; q < 11; q++) {
+                                renderer->drawDeathPacman(*p1, q);
+                                al_flip_display();
+                                
+                            }
+                            
+                            
+                            al_set_timer_speed(movementTimer,(1.0/7));
+                            al_set_timer_speed(animationTimer,(1.0/7));*/
                         this->restart();
                     }
                 } else {
@@ -70,6 +83,17 @@ void Game::loop() {
                         if(p1->getGhostCollision()->getEatable()) {
                             p1->eatGhost(*g1, *g2, *g3, *g4,*mappa);
                         } else {
+                            /* al_set_timer_speed(movementTimer,(1.0));
+                            al_set_timer_speed(animationTimer,(2.0));
+                            for(int q = 0; q < 11; q++) {
+                                renderer->drawDeathPacman(*p1, q);
+                                al_flip_display();
+                                
+                            }
+                            
+                            
+                            al_set_timer_speed(movementTimer,(1.0/7));
+                            al_set_timer_speed(animationTimer,(1.0/7));*/
                             this->restart();
                         }
                     }
@@ -78,13 +102,16 @@ void Game::loop() {
 
             if(ev.timer.source == animationTimer) {
                 renderer->draw(*p1, *g1, *g2, *g3, *g4, *mappa);
-                renderer->drawInfo(*p1, *this->font);
+                renderer->drawInfo(*p1, *this->font, *this->font2);
 
                 al_flip_display();
                 al_clear_to_color(al_map_rgb(0, 0, 0));
 
                 if(p1->getLifes() == 0) {
                     al_stop_timer(animationTimer);
+                }
+                if(p1->getPills() == 0) {
+                    al_stop_timer(movementTimer);
                 }
             }
 
@@ -113,28 +140,28 @@ void Game::restart() {
     mappa->map[g2->getCoordinateX()][g2->getCoordinateY()] = g2->getPrevious();
     g2->setCoordinateX(15);
     g2->setCoordinateY(16);
-    mappa->map[g2->getCoordinateX()][g2->getCoordinateY()] = 75;
+    mappa->map[g2->getCoordinateX()][g2->getCoordinateY()] = 77;
     g2->setRandAttuale(0);
     g2->setPrevious(0);
-    g2->setImage(75);
+    g2->setImage(77);
     g2->setEatable(false);
 
     mappa->map[g3->getCoordinateX()][g3->getCoordinateY()] = g3->getPrevious();
     g3->setCoordinateX(15);
     g3->setCoordinateY(13);
-    mappa->map[g3->getCoordinateX()][g3->getCoordinateY()] = 75;
+    mappa->map[g3->getCoordinateX()][g3->getCoordinateY()] = 78;
     g3->setRandAttuale(0);
     g3->setPrevious(0);
-    g3->setImage(75);
+    g3->setImage(78);
     g3->setEatable(false);
 
     mappa->map[g4->getCoordinateX()][g4->getCoordinateY()] = g4->getPrevious();
     g4->setCoordinateX(15);
     g4->setCoordinateY(14);
-    mappa->map[g4->getCoordinateX()][g4->getCoordinateY()] = 75;
+    mappa->map[g4->getCoordinateX()][g4->getCoordinateY()] = 79;
     g4->setRandAttuale(0);
     g4->setPrevious(0);
-    g4->setImage(75);
+    g4->setImage(79);
     g4->setEatable(false);
 }
 
@@ -156,12 +183,14 @@ void Game::initializeAllegro() {
     if(!this->event_queue) { fprintf(stderr, "failed to create event_queue!\n"); }
 
     // fonts
-    this->font = al_load_font("./Minecraftia.ttf", 12, 0);
+    this->font = al_load_font("./crackman.ttf", 30, 0);
+    if(!this->font) { fprintf(stderr, "failed to initialize font!\n"); }
+    this->font2 = al_load_font("./crackman.ttf", 15, 0);
     if(!this->font) { fprintf(stderr, "failed to initialize font!\n"); }
 
     // timers
-    this->movementTimer = al_create_timer(1.0 / 3);
-    this->animationTimer = al_create_timer(1.0 / 10);
+    this->movementTimer = al_create_timer(1.0/7 );
+    this->animationTimer = al_create_timer(1.0/14);
 
 
     al_register_event_source(this->event_queue, al_get_display_event_source(display));

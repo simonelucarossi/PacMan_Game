@@ -26,6 +26,7 @@ class Game{
         ALLEGRO_DISPLAY *display;
         ALLEGRO_EVENT_QUEUE *event_queue;
         ALLEGRO_FONT *font;
+        ALLEGRO_FONT *font2;
         ALLEGRO_TIMER *animationTimer;
         ALLEGRO_TIMER *movementTimer;
 

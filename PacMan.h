@@ -14,6 +14,7 @@ class PacMan {
         int frame;
         int direction;
         Ghost* ghostCollision;
+        int Pills;
 
 
     public:
@@ -31,6 +32,7 @@ class PacMan {
         void setCoordinateX(int);
         void setCoordinateY(int);
         void setDirection(int);
+        inline void setPrevious(int q) { previous = q; } 
 
         // movement
         void nextStep(Map&);
@@ -45,6 +47,8 @@ class PacMan {
         bool CheckCollision(Ghost, Ghost, Ghost,Ghost);
         bool eatGhost(Ghost&, Ghost&, Ghost&, Ghost&, Map&);
         bool eatPill();
+        int getPills();
+        inline void setPills(int q) { Pills = q; }
         Ghost* getGhostCollision() { return ghostCollision; }
 };
 

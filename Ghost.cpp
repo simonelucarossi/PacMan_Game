@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <ctime>
 
-Ghost::Ghost(Map& m, int xpassed, int ypassed) {
+Ghost::Ghost(Map& m, int xpassed, int ypassed, int imageP) {
     x = xpassed;
     y = ypassed;
     xinit = xpassed;
@@ -11,8 +11,12 @@ Ghost::Ghost(Map& m, int xpassed, int ypassed) {
     dead = false;
     exit = false;
     randattuale = 0;
-    image = 75;
+    image = imageP;
     eatable = false;
+    frame = 0;
+    
+    movementFrame = 0;
+    ImageInit = imageP;
 
     m.map[x][y] = image;
 }
@@ -21,6 +25,8 @@ Ghost::Ghost(Map& m, int xpassed, int ypassed) {
 
 int Ghost::getCoordinateX() { return x; }
 int Ghost::getCoordinateY() { return y; }
+
+int Ghost::getFrame() { return frame; }
 
 string Ghost::getUrlImage() { return urlImage; }
 
@@ -32,10 +38,12 @@ void Ghost::setCoordinateY(int yP) { y = yP; }
 
 void Ghost::setRandAttuale(int rA) { randattuale = rA; }
 
+int Ghost::getRandAttuale() { return randattuale; }
+
 void Ghost::setPrevious(int p) { previous = p; }
 
 bool Ghost::MoveLeft(Map& m) {
-    if(m.map[x][y-1] == 0 || m.map[x][y-1] == 11 || m.map[x][y-1] == 15){
+    if(m.map[x][y-1] == 0 || m.map[x][y-1] == 11 || m.map[x][y-1] == 75 || m.map[x][y-1] == 76 || m.map[x][y-1] == 77 || m.map[x][y-1] == 78 || m.map[x][y-1] == 79 ||  m.map[x][y-1] == 15 ){
         m.map[x][y] = previous;
 
         if(x == 15 && (y-1) == 0 ){
@@ -43,7 +51,7 @@ bool Ghost::MoveLeft(Map& m) {
             y = 29;
         }
 
-        if(m.map[x][y-1] != 11){ previous = m.map[x][y-1]; } else { previous = 0; }
+        if(m.map[x][y-1] != 11  && m.map[x][y-1] != 75 && m.map[x][y-1] != 76 && m.map[x][y-1] != 77 && m.map[x][y-1] != 78 && m.map[x][y-1] != 79){ previous = m.map[x][y-1]; } else { previous = 0; }
         m.map[x][y-1] = image;
         y = y-1;
 
@@ -80,9 +88,9 @@ bool Ghost::MoveLeft(Map& m) {
 }
 
 bool Ghost::MoveUp(Map& m){
-    if(m.map[x-1][y] == 0 || m.map[x-1][y] == 11 || m.map[x-1][y] == 15){
+    if(m.map[x-1][y] == 0 || m.map[x-1][y] == 11 || m.map[x-1][y] == 75 || m.map[x-1][y] == 76 || m.map[x-1][y] == 77 || m.map[x-1][y] == 78 || m.map[x-1][y] == 79  || m.map[x-1][y] == 15){
         m.map[x][y] = previous;
-        if(m.map[x-1][y] != 11){ previous = m.map[x-1][y]; } else { previous = 0; }
+        if(m.map[x-1][y] != 11  && m.map[x-1][y] != 75 && m.map[x-1][y] != 76 && m.map[x-1][y] != 77 && m.map[x-1][y] != 78 && m.map[x-1][y] != 79){ previous = m.map[x-1][y]; } else { previous = 0; }
         m.map[x-1][y] = image;
         x = x-1;
         return true;
@@ -121,10 +129,10 @@ bool Ghost::MoveUp(Map& m){
 }
 
 bool Ghost::MoveDown(Map& m){
-    if(m.map[x+1][y] == 0 || m.map[x+1][y] == 11 || m.map[x+1][y] == 15){
+    if(m.map[x+1][y] == 0 || m.map[x+1][y] == 11 || m.map[x+1][y] == 75 || m.map[x+1][y] == 76 || m.map[x+1][y] == 77 || m.map[x+1][y] == 78 || m.map[x+1][y] == 79  || m.map[x+1][y] == 15){
         m.map[x][y] = previous;
         if(m.map[x][y] == 7 || m.map[x][y] == 8) { return false; }
-        if(m.map[x+1][y] != 11){ previous = m.map[x+1][y]; } else { previous = 0; }
+        if(m.map[x+1][y] != 11  && m.map[x+1][y] != 75 && m.map[x+1][y] != 76 && m.map[x+1][y] != 77 && m.map[x+1][y] != 78 && m.map[x+1][y] != 79){ previous = m.map[x+1][y]; } else { previous = 0; }
         m.map[x+1][y] = image;
         x = x+1;
         return true;
@@ -160,7 +168,7 @@ bool Ghost::MoveDown(Map& m){
 
 
 bool Ghost::MoveRight(Map& m){
-    if(m.map[x][y+1] == 0 || m.map[x][y+1] == 11 || m.map[x][y+1] == 15){
+    if(m.map[x][y+1] == 0 || m.map[x][y+1] == 11 ||  m.map[x][y+1] == 75 || m.map[x][y+1] == 76 || m.map[x][y+1] == 77 || m.map[x][y+1] == 78 || m.map[x][y+1] == 79  || m.map[x][y+1] == 15){
         m.map[x][y] = previous;
 
         if(x == 15 && (y+1) == 29 ){
@@ -168,7 +176,7 @@ bool Ghost::MoveRight(Map& m){
             y = 0;
         }
 
-        if(m.map[x][y+1] != 11){ previous = m.map[x][y+1]; } else { previous = 0; }
+        if(m.map[x][y+1] != 11 && m.map[x][y+1] != 75 && m.map[x][y+1] != 76 && m.map[x][y+1] != 77 && m.map[x][y+1] != 78 && m.map[x][y+1] != 79){ previous = m.map[x][y+1]; } else { previous = 0; }
         m.map[x][y+1] = image;
         y = y+1;
 
@@ -207,22 +215,22 @@ bool Ghost::MoveRight(Map& m){
 }
 
 bool Ghost::checkUp(Map& m){
-    if(m.map[x-1][y] != 0 && m.map[x-1][y] != 9 && m.map[x-1][y] != 11 && m.map[x-1][y] != image && m.map[x-1][y] != 7 && m.map[x-1][y] != 8) { return false; }
+    if(m.map[x-1][y] != 0 && m.map[x-1][y] != 9 && m.map[x-1][y] != 11 && m.map[x-1][y] != image && m.map[x-1][y] != 7 && m.map[x-1][y] != 8 && m.map[x-1][y] != 15 && m.map[x-1][y] != 75 && m.map[x-1][y] != 76 && m.map[x-1][y] != 77 && m.map[x-1][y] != 78 && m.map[x-1][y] != 79) { return false; }
     return true;
 }
 
 bool Ghost::checkDown(Map& m){
-    if(m.map[x+1][y] != 0 && m.map[x+1][y] != 9 && m.map[x+1][y] != 11) { return false; }
+    if(m.map[x+1][y] != 0 && m.map[x+1][y] != 9 && m.map[x+1][y] != 11 && m.map[x+1][y] != 15 && m.map[x+1][y] != 75 && m.map[x+1][y] != 76 && m.map[x+1][y] != 77 && m.map[x+1][y] != 78 && m.map[x+1][y] != 79) { return false; }
     return true;
 }
 
 bool Ghost::checkLeft(Map& m){
-    if(m.map[x][y-1] != 0 && m.map[x-1][y-1] != 9 && m.map[x-1][y-1] != 11) { return false; }
+    if(m.map[x][y-1] != 0 && m.map[x][y-1] != 9 && m.map[x][y-1] != 11 && m.map[x][y-1] != 15 && m.map[x][y-1] != 75 && m.map[x][y-1] != 76 && m.map[x][y-1] != 77 && m.map[x][y-1] != 78 && m.map[x][y-1] != 79) { return false; }
     return true;
 }
 
 bool Ghost::checkRight(Map& m){
-    if(m.map[x][y+1] != 0 && m.map[x][y+1] != 9 && m.map[x][y+1] != 11) { return false; }
+    if(m.map[x][y+1] != 0 && m.map[x][y+1] != 9 && m.map[x][y+1] != 11 && m.map[x][y+1] != 15 && m.map[x][y+1] != 75 && m.map[x][y+1] != 76 && m.map[x][y+1] != 77 && m.map[x][y+1] != 78 && m.map[x][y+1] != 79) { return false; }
     return true;
 }
 
@@ -296,9 +304,17 @@ bool Ghost::restartGhost(Map& mappa) {
     mappa.map[x][y] = 11;
     x = xinit;
     y = yinit;
-    mappa.map[x][y] = 75;
-    image = 75;
+    mappa.map[x][y] = ImageInit;
+    image = ImageInit;
     this->setRandAttuale(0);
     this->setPrevious(0);
     this->setEatable(false);
+}
+
+int Ghost::nextFrame() {
+    return (this->frame++%2);
+}
+
+void Ghost::changeMovementFrame() {
+    if(this->movementFrame == 0) { this->movementFrame = 1; } else { this->movementFrame = 0; }
 }
