@@ -1,11 +1,18 @@
 #include "Renderer.h"
 #include <sstream>
 
+int CELL_WIDTH = 20;
+int CELL_HEIGHT = 20;
+
 int WALL_THICKNESS = 5;
 
+int WALL_SPRITE_SIZE = CELL_WIDTH;
+int GHOST_SPRITE_SIZE = CELL_WIDTH;
+int PACMAN_SPRITE_SIZE = CELL_WIDTH;
+
 Renderer::Renderer() {
-    this->cellWidth  = 20;
-    this->cellHeight = 20;
+    this->cellWidth  = CELL_WIDTH;
+    this->cellHeight = CELL_HEIGHT;
     this->height = (cellHeight*33)+50;
     this->width  = cellWidth*30;
 }
@@ -28,7 +35,7 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
     int frameGhostRed;
     int frameGhostEatable = 0;
     int framePill = 0;
-   
+
 
     int spritesPacman[12][2] = {
         // up
@@ -56,7 +63,7 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
         // up
         144, 144,
         168,144,
-        
+
         // left
         96, 144,
         120,144,
@@ -74,7 +81,7 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
         // up
         312, 192,
         336,192,
-        
+
         // left
         264, 192,
         288,192,
@@ -92,7 +99,7 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
         // up
         144, 192,
         168,192,
-        
+
         // left
         96, 192,
         120,192,
@@ -110,7 +117,7 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
         // up
         144, 216,
         168,216,
-        
+
         // left
         96, 216,
         120,216,
@@ -148,8 +155,8 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                     al_draw_scaled_bitmap(image,
                         96, 96,
                         24, 24,
-                        cellCenterX-10, cellCenterY-10,
-                        20, 20,
+                        cellCenterX-(WALL_SPRITE_SIZE/2), cellCenterY-(WALL_SPRITE_SIZE/2),
+                        WALL_SPRITE_SIZE, WALL_SPRITE_SIZE,
                         0
                     );
                     /*al_draw_line(
@@ -169,8 +176,8 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                     al_draw_scaled_bitmap(image,
                         48, 96,
                         24, 24,
-                        cellCenterX-10, cellCenterY-10,
-                        20, 20,
+                        cellCenterX-(WALL_SPRITE_SIZE/2), cellCenterY-(WALL_SPRITE_SIZE/2),
+                        WALL_SPRITE_SIZE, WALL_SPRITE_SIZE,
                         0
                     );
                     /*al_draw_line(
@@ -190,8 +197,8 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                     al_draw_scaled_bitmap(image,
                         120, 96,
                         24, 24,
-                        cellCenterX-10, cellCenterY-10,
-                        20, 20,
+                        cellCenterX-(WALL_SPRITE_SIZE/2), cellCenterY-(WALL_SPRITE_SIZE/2),
+                        WALL_SPRITE_SIZE, WALL_SPRITE_SIZE,
                         0
                     );
                     /*al_draw_line(
@@ -211,8 +218,8 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                     al_draw_scaled_bitmap(image,
                         72, 96,
                         24, 24,
-                        cellCenterX-10, cellCenterY-10,
-                        20, 20,
+                        cellCenterX-(WALL_SPRITE_SIZE/2), cellCenterY-(WALL_SPRITE_SIZE/2),
+                        WALL_SPRITE_SIZE, WALL_SPRITE_SIZE,
                         0
                     );
                     /*al_draw_line(
@@ -232,8 +239,8 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                     al_draw_scaled_bitmap(image,
                         0, 96,
                         24, 24,
-                        cellCenterX-10, cellCenterY-10,
-                        20, 20,
+                        cellCenterX-(WALL_SPRITE_SIZE/2), cellCenterY-(WALL_SPRITE_SIZE/2),
+                        WALL_SPRITE_SIZE, WALL_SPRITE_SIZE,
                         0
                     );
 
@@ -249,8 +256,8 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                     al_draw_scaled_bitmap(image,
                         24, 96,
                         24, 24,
-                        cellCenterX-10, cellCenterY-10,
-                        20, 20,
+                        cellCenterX-(WALL_SPRITE_SIZE/2), cellCenterY-(WALL_SPRITE_SIZE/2),
+                        WALL_SPRITE_SIZE, WALL_SPRITE_SIZE,
                         0
                     );
                     /*al_draw_line(
@@ -291,15 +298,15 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                         spritesPacman[framePacman+directionPacman*3][0],
                         spritesPacman[framePacman+directionPacman*3][1],
                         24, 24,
-                        cellCenterX-10, cellCenterY-10,
-                        20, 20,
+                        cellCenterX-(PACMAN_SPRITE_SIZE/2), cellCenterY-(PACMAN_SPRITE_SIZE/2),
+                        PACMAN_SPRITE_SIZE, PACMAN_SPRITE_SIZE,
                         0
                     );
                     break;
                 case(15):
-                    
+
                     al_draw_filled_circle(cellCenterX, cellCenterY, 4, white);
-                    
+
                     break;
                 case(75):
                     directionGhostRed = g1.getRandAttuale();
@@ -309,22 +316,22 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                         spritesGhostRed[g1.getMovementFrame()+g1.getRandAttuale()*2][1],
                         24, 24,
                         cellCenterX-10, cellCenterY-10,
-                        20, 20,
+                        GHOST_SPRITE_SIZE, GHOST_SPRITE_SIZE,
                         0
                     );
 
                     g1.changeMovementFrame();
                     break;
-                    
+
                 case(76):
-                    
+
                     if(frameGhostEatable == 0){
                                         al_draw_scaled_bitmap(image,
                                             spritesGhostEatable[0][0],
                                             spritesGhostEatable[0][1],
                                             24, 24,
                                             cellCenterX-10, cellCenterY-10,
-                                            20, 20,
+                                            GHOST_SPRITE_SIZE, GHOST_SPRITE_SIZE,
                                             0
                                         );
                                     }
@@ -334,13 +341,13 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                                             spritesGhostEatable[1][1],
                                             24, 24,
                                             cellCenterX-10, cellCenterY-10,
-                                            20, 20,
+                                            GHOST_SPRITE_SIZE, GHOST_SPRITE_SIZE,
                                             0
                                         );
                                     }
 
                     this->changeEatableFrame(frameGhostEatable);
-                    
+
                     break;
 
                 case(77):
@@ -351,7 +358,7 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                         spritesGhostPink[g2.getMovementFrame()+g2.getRandAttuale()*2][1],
                         24, 24,
                         cellCenterX-10, cellCenterY-10,
-                        20, 20,
+                        GHOST_SPRITE_SIZE, GHOST_SPRITE_SIZE,
                         0
                     );
                     g2.changeMovementFrame();
@@ -365,7 +372,7 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                         spritesGhostOrange[g3.getMovementFrame()+g3.getRandAttuale()*2][1],
                         24, 24,
                         cellCenterX-10, cellCenterY-10,
-                        20, 20,
+                        GHOST_SPRITE_SIZE, GHOST_SPRITE_SIZE,
                         0
                     );
 
@@ -380,7 +387,7 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                         spritesGhostBlue[g4.getMovementFrame()+g4.getRandAttuale()*2][1],
                         24, 24,
                         cellCenterX-10, cellCenterY-10,
-                        20, 20,
+                        GHOST_SPRITE_SIZE, GHOST_SPRITE_SIZE,
                         0
                     );
                     g4.changeMovementFrame();
@@ -507,7 +514,7 @@ void Renderer::drawDeathPacman(PacMan& p1, int i) {
                         spritesDeathPacman[i][1],
                         24, 24,
                         (p1.getCoordinateX()*cellWidth), (p1.getCoordinateY()*cellHeight),
-                        20, 20,
+                        PACMAN_SPRITE_SIZE, PACMAN_SPRITE_SIZE,
                         0
                     );
 }
@@ -517,7 +524,7 @@ void Renderer::ChangePill(int& framePill) {
     bool alMinimo = false;
 
     if(alMassimo) { framePill++; } else { framePill--;}
-    if(framePill == 8) { alMassimo = false; alMinimo = true; } 
+    if(framePill == 8) { alMassimo = false; alMinimo = true; }
     else if(framePill == 3) { alMassimo = true; alMinimo = false; }
 
 }
