@@ -31,7 +31,7 @@ public:
 	bool MoveUp(Map&);
 	bool MoveDown(Map&);
 	bool MoveRight(Map&);
-	void moveGhost(Map&);
+	void moveGhost(Map&, int, int);
 	bool checkUp(Map&);
 	bool checkDown(Map&);
 	bool checkLeft(Map&);

@@ -236,7 +236,7 @@ bool Ghost::checkRight(Map& m){
     return true;
 }
 
-void Ghost::moveGhost(Map& m){
+void Ghost::moveGhost(Map& m, int xPacman, int yPacman){
     this->checkPacmanUp(m);
     this->checkPacmanDown(m);
     this->checkPacmanLeft(m);
@@ -246,6 +246,22 @@ void Ghost::moveGhost(Map& m){
     else if(randattuale == 1 && (checkLeft(m))) { this->MoveLeft(m);}
     else if(randattuale == 2 && (checkRight(m))) { this->MoveRight(m);}
     else if(randattuale == 3 && (checkDown(m))) { this->MoveDown(m);}
+    else if((checkUp(m) && xPacman < this->x)) {
+        this->MoveUp(m);
+        randattuale = 0;
+    }
+    else if((checkDown(m) && xPacman > this->x)) {
+        this->MoveDown(m);
+        randattuale = 3;
+    }
+    else if((checkLeft(m) && yPacman < this->y)) {
+        this->MoveLeft(m);
+        randattuale = 1;
+    }
+    else if((checkRight(m) && yPacman > this->y)) {
+        this->MoveRight(m);
+        randattuale = 2;
+    }
 
     else {
         int v1 = rand() % 4;

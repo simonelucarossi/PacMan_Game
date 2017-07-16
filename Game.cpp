@@ -26,7 +26,18 @@ Game::Game() {
 Game::~Game() {
     al_destroy_display(this->display);
     al_destroy_sample(sample);
+    al_destroy_sample(sample2);
+    al_destroy_sample(sample3);
+    al_destroy_sample(sample4);
     al_destroy_event_queue(this->event_queue);
+    delete g1;
+    delete g2;
+    delete g3;
+    delete g4;
+    delete p1;
+    delete renderer;
+    delete mappa;
+    delete menuGame;
 }
 
 ////////////////////
@@ -154,10 +165,10 @@ void Game::loop() {
                         p1->setDeathPacman(true);
                     }
                 } else {
-                    g1->moveGhost(*mappa);
-                    g2->moveGhost(*mappa);
-                    g3->moveGhost(*mappa);
-                    g4->moveGhost(*mappa);
+                    g1->moveGhost(*mappa, p1->getCoordinateX(), p1->getCoordinateY());
+                    g2->moveGhost(*mappa, p1->getCoordinateX(), p1->getCoordinateY());
+                    g3->moveGhost(*mappa, p1->getCoordinateX(), p1->getCoordinateY());
+                    g4->moveGhost(*mappa, p1->getCoordinateX(), p1->getCoordinateY());
 
                     if(p1->CheckCollision(*g1, *g2, *g3, *g4)) {
                         if(p1->getGhostCollision()->getEatable()) {
@@ -197,8 +208,7 @@ void Game::loop() {
                 renderer->draw(*p1, *g1, *g2, *g3, *g4, *mappa);
                 renderer->drawDeathPacman(*p1, p1->getFrameDeath());
                 renderer->drawInfo(*p1, *this->font, *this->font2);
-                al_flip_display();
-                al_clear_to_color(al_map_rgb(0, 0, 0));
+                
 
                 if(p1->getFrameDeath() == 0) { 
                     if(playMusic) {
@@ -215,6 +225,8 @@ void Game::loop() {
                         this->restart();
                     }
 
+                    al_flip_display();
+                al_clear_to_color(al_map_rgb(0, 0, 0));
                 
             }
 
