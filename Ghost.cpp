@@ -51,7 +51,7 @@ bool Ghost::MoveLeft(Map& m) {
             y = 29;
         }
 
-        if(m.map[x][y-1] != 11  && m.map[x][y-1] != 75 && m.map[x][y-1] != 76 && m.map[x][y-1] != 77 && m.map[x][y-1] != 78 && m.map[x][y-1] != 79){ previous = m.map[x][y-1]; } else { previous = 0; }
+        if(m.map[x][y-1] != 11  && m.map[x][y-1] != 75 && m.map[x][y-1] != 76 && m.map[x][y-1] != 77 && m.map[x][y-1] != 78 && m.map[x][y-1] != 79){ previous = m.map[x][y-1]; }
         m.map[x][y-1] = image;
         y = y-1;
 
@@ -90,7 +90,8 @@ bool Ghost::MoveLeft(Map& m) {
 bool Ghost::MoveUp(Map& m){
     if(m.map[x-1][y] == 0 || m.map[x-1][y] == 11 || m.map[x-1][y] == 75 || m.map[x-1][y] == 76 || m.map[x-1][y] == 77 || m.map[x-1][y] == 78 || m.map[x-1][y] == 79  || m.map[x-1][y] == 15){
         m.map[x][y] = previous;
-        if(m.map[x-1][y] != 11  && m.map[x-1][y] != 75 && m.map[x-1][y] != 76 && m.map[x-1][y] != 77 && m.map[x-1][y] != 78 && m.map[x-1][y] != 79){ previous = m.map[x-1][y]; } else { previous = 0; }
+        if(m.map[x-1][y] != 11  && m.map[x-1][y] != 75 && m.map[x-1][y] != 76 && m.map[x-1][y] != 77 && m.map[x-1][y] != 78 && m.map[x-1][y] != 79){ previous = m.map[x-1][y]; }
+        else if((m.map[x-1][y] == 76 || m.map[x-1][y] == 77 || m.map[x-1][y] == 78 || m.map[x-1][y] == 79) && previous == 15){ previous = 9; }
         m.map[x-1][y] = image;
         x = x-1;
         return true;
@@ -132,7 +133,8 @@ bool Ghost::MoveDown(Map& m){
     if(m.map[x+1][y] == 0 || m.map[x+1][y] == 11 || m.map[x+1][y] == 75 || m.map[x+1][y] == 76 || m.map[x+1][y] == 77 || m.map[x+1][y] == 78 || m.map[x+1][y] == 79  || m.map[x+1][y] == 15){
         m.map[x][y] = previous;
         if(m.map[x][y] == 7 || m.map[x][y] == 8) { return false; }
-        if(m.map[x+1][y] != 11  && m.map[x+1][y] != 75 && m.map[x+1][y] != 76 && m.map[x+1][y] != 77 && m.map[x+1][y] != 78 && m.map[x+1][y] != 79){ previous = m.map[x+1][y]; } else { previous = 0; }
+        if(m.map[x+1][y] != 11  && m.map[x+1][y] != 75 && m.map[x+1][y] != 76 && m.map[x+1][y] != 77 && m.map[x+1][y] != 78 && m.map[x+1][y] != 79){ previous = m.map[x+1][y]; }
+        else if((m.map[x+1][y] == 76 || m.map[x+1][y] == 77 || m.map[x+1][y] == 78 || m.map[x+1][y] == 79) && previous == 15){ previous = 9; }
         m.map[x+1][y] = image;
         x = x+1;
         return true;
@@ -176,7 +178,7 @@ bool Ghost::MoveRight(Map& m){
             y = 0;
         }
 
-        if(m.map[x][y+1] != 11 && m.map[x][y+1] != 75 && m.map[x][y+1] != 76 && m.map[x][y+1] != 77 && m.map[x][y+1] != 78 && m.map[x][y+1] != 79){ previous = m.map[x][y+1]; } else { previous = 0; }
+        if(m.map[x][y+1] != 11 && m.map[x][y+1] != 75 && m.map[x][y+1] != 76 && m.map[x][y+1] != 77 && m.map[x][y+1] != 78 && m.map[x][y+1] != 79){ previous = m.map[x][y+1]; }
         m.map[x][y+1] = image;
         y = y+1;
 
@@ -215,22 +217,22 @@ bool Ghost::MoveRight(Map& m){
 }
 
 bool Ghost::checkUp(Map& m){
-    if(m.map[x-1][y] != 0 && m.map[x-1][y] != 9 && m.map[x-1][y] != 11 && m.map[x-1][y] != image && m.map[x-1][y] != 7 && m.map[x-1][y] != 8 && m.map[x-1][y] != 15 && m.map[x-1][y] != 75 && m.map[x-1][y] != 76 && m.map[x-1][y] != 77 && m.map[x-1][y] != 78 && m.map[x-1][y] != 79) { return false; }
+    if(m.map[x-1][y] != 0 && m.map[x-1][y] != 9 && m.map[x-1][y] != 11 && m.map[x-1][y] != image && m.map[x-1][y] != 7 && m.map[x-1][y] != 8 && m.map[x-1][y] != 15) { return false; }
     return true;
 }
 
 bool Ghost::checkDown(Map& m){
-    if(m.map[x+1][y] != 0 && m.map[x+1][y] != 9 && m.map[x+1][y] != 11 && m.map[x+1][y] != 15 && m.map[x+1][y] != 75 && m.map[x+1][y] != 76 && m.map[x+1][y] != 77 && m.map[x+1][y] != 78 && m.map[x+1][y] != 79) { return false; }
+    if(m.map[x+1][y] != 0 && m.map[x+1][y] != 9 && m.map[x+1][y] != 11 && m.map[x+1][y] != 15 ) { return false; }
     return true;
 }
 
 bool Ghost::checkLeft(Map& m){
-    if(m.map[x][y-1] != 0 && m.map[x][y-1] != 9 && m.map[x][y-1] != 11 && m.map[x][y-1] != 15 && m.map[x][y-1] != 75 && m.map[x][y-1] != 76 && m.map[x][y-1] != 77 && m.map[x][y-1] != 78 && m.map[x][y-1] != 79) { return false; }
+    if(m.map[x][y-1] != 0 && m.map[x][y-1] != 9 && m.map[x][y-1] != 11 && m.map[x][y-1] != 15 && m.map[x][y-1]) { return false; }
     return true;
 }
 
 bool Ghost::checkRight(Map& m){
-    if(m.map[x][y+1] != 0 && m.map[x][y+1] != 9 && m.map[x][y+1] != 11 && m.map[x][y+1] != 15 && m.map[x][y+1] != 75 && m.map[x][y+1] != 76 && m.map[x][y+1] != 77 && m.map[x][y+1] != 78 && m.map[x][y+1] != 79) { return false; }
+    if(m.map[x][y+1] != 0 && m.map[x][y+1] != 9 && m.map[x][y+1] != 11 && m.map[x][y+1] != 15) { return false; }
     return true;
 }
 

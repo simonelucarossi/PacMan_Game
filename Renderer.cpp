@@ -1,13 +1,20 @@
 #include "Renderer.h"
 #include <sstream>
 
+
 int WALL_THICKNESS = 5;
 
 Renderer::Renderer() {
     this->cellWidth  = 20;
     this->cellHeight = 20;
-    this->height = (cellHeight*33)+50;
-    this->width  = cellWidth*30;
+    this->height = (cellHeight*33)+50; // 710
+    this->width  = cellWidth*30; // 600
+    this->gamePaused = false;
+    this->framePill = 3;
+    this->alMassimo = true;
+    this->alMinimo = false;
+    this->frameGhostEatable = 0;
+    this->ready = true;
 }
 
 void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, Map& map) {
@@ -26,8 +33,7 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
     int directionPacman;
     int directionGhostRed;
     int frameGhostRed;
-    int frameGhostEatable = 0;
-    int framePill = 0;
+    
    
 
     int spritesPacman[12][2] = {
@@ -124,18 +130,10 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
         72,216,
     };
 
-    int spritesGhostEatable[8][2] = {
-        192,96,
-        216,96,
-        192,96,
-        216,96,
-        192,96,
-        216,96,
+    int spritesGhostEatable[2][2] = {
         192,96,
         216,96,
     };
-
-
 
     for(int y = 0; y < 33; y++) {
         for(int x = 0; x < 30; x++) {
@@ -296,11 +294,6 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
                         0
                     );
                     break;
-                case(15):
-                    
-                    al_draw_filled_circle(cellCenterX, cellCenterY, 4, white);
-                    
-                    break;
                 case(75):
                     directionGhostRed = g1.getRandAttuale();
 
@@ -315,33 +308,7 @@ void Renderer::draw(PacMan& pacman, Ghost& g1, Ghost& g2, Ghost& g3, Ghost& g4, 
 
                     g1.changeMovementFrame();
                     break;
-                    
-                case(76):
-                    
-                    if(frameGhostEatable == 0){
-                                        al_draw_scaled_bitmap(image,
-                                            spritesGhostEatable[0][0],
-                                            spritesGhostEatable[0][1],
-                                            24, 24,
-                                            cellCenterX-10, cellCenterY-10,
-                                            20, 20,
-                                            0
-                                        );
-                                    }
-                    if(frameGhostEatable == 1){
-                                        al_draw_scaled_bitmap(image,
-                                            spritesGhostEatable[1][0],
-                                            spritesGhostEatable[1][1],
-                                            24, 24,
-                                            cellCenterX-10, cellCenterY-10,
-                                            20, 20,
-                                            0
-                                        );
-                                    }
 
-                    this->changeEatableFrame(frameGhostEatable);
-                    
-                    break;
 
                 case(77):
                     directionGhostRed = g2.getRandAttuale();
@@ -407,10 +374,10 @@ void Renderer::drawInfo(PacMan& pacman, ALLEGRO_FONT &font, ALLEGRO_FONT &font2)
 
 
 
-    if(pacman.getLifes() > 0 && pacman.getPills()!= 0) {
+    if(pacman.getLifes() > 0 && pacman.getPills()!= 0  && this->gamePaused == false) {
         al_draw_text(&font, al_map_rgb(255,255,251), 24, this->height-60, ALLEGRO_ALIGN_LEFT, scoreinfo.str().c_str());
         al_draw_text(&font, al_map_rgb(255,255,255), this-> width-192, this->height-60, ALLEGRO_ALIGN_LEFT, lifesinfo.str().c_str());
-         al_draw_text(&font2, al_map_rgb(255,255,255), this-> width/2-44, this->height-20, ALLEGRO_ALIGN_LEFT, pillsinfo.str().c_str());
+        al_draw_text(&font2, al_map_rgb(255,255,255), this-> width/2-44, this->height-20, ALLEGRO_ALIGN_LEFT, pillsinfo.str().c_str());
         for(int i = 0; i < pacman.getLifes(); i++){
                 al_draw_scaled_bitmap(image,
                                 48,
@@ -434,17 +401,6 @@ void Renderer::drawInfo(PacMan& pacman, ALLEGRO_FONT &font, ALLEGRO_FONT &font2)
         al_draw_text(&font, al_map_rgb(160,29,0), 213, this->height/2-2, ALLEGRO_ALIGN_LEFT, "GAME OVER");
         al_draw_text(&font, al_map_rgb(255,255,251), 24, this->height-60, ALLEGRO_ALIGN_LEFT, scoreinfo.str().c_str());
         al_draw_text(&font, al_map_rgb(160,29,0), this-> width-192, this->height-60, ALLEGRO_ALIGN_LEFT, lifesinfo.str().c_str());
-        al_draw_text(&font, al_map_rgb(255,255,255), 24, this->height/2-2, ALLEGRO_ALIGN_LEFT, "BACK");
-        al_draw_text(&font, al_map_rgb(255,255,255), this-> width-105, this->height/2-2, ALLEGRO_ALIGN_LEFT, "EXIT");
-        for(int i = 0; i < pacman.getLifes(); i++){
-                al_draw_scaled_bitmap(image,
-                                48,
-                                72,
-                                24, 24,
-                                this->width-89 + (25*i), this->height-53,
-                                24, 24,
-                                0
-                            );}
         al_draw_scaled_bitmap(image,
                                 96,
                                 12,
@@ -455,7 +411,7 @@ void Renderer::drawInfo(PacMan& pacman, ALLEGRO_FONT &font, ALLEGRO_FONT &font2)
                             );
     }
 
-    else {
+    else if(pacman.getPills() == 0) {
         al_draw_text(&font, al_map_rgb(95,180,44), 207, this->height/2-2, ALLEGRO_ALIGN_LEFT, "COMPLETED");
         al_draw_text(&font, al_map_rgb(95,180,44), 24, this->height-60, ALLEGRO_ALIGN_LEFT, scoreinfo.str().c_str());
         al_draw_text(&font, al_map_rgb(95,180,44), this-> width-192, this->height-60, ALLEGRO_ALIGN_LEFT, lifesinfo.str().c_str());
@@ -477,6 +433,55 @@ void Renderer::drawInfo(PacMan& pacman, ALLEGRO_FONT &font, ALLEGRO_FONT &font2)
                                 0
                             );
     }
+    else if(this->ready == false) {
+       al_draw_text(&font, al_map_rgb(254,254,33), 245, this->height/2-2, ALLEGRO_ALIGN_LEFT, "PAUSED");
+        al_draw_text(&font, al_map_rgb(255,255,255), 24, this->height-60, ALLEGRO_ALIGN_LEFT, scoreinfo.str().c_str());
+        al_draw_text(&font, al_map_rgb(255,255,255), this-> width-192, this->height-60, ALLEGRO_ALIGN_LEFT, lifesinfo.str().c_str());
+        for(int i = 0; i < pacman.getLifes(); i++){
+                al_draw_scaled_bitmap(image,
+                                48,
+                                72,
+                                24, 24,
+                                this->width-89 + (25*i), this->height-53,
+                                24, 24,
+                                0
+                            );}
+        al_draw_scaled_bitmap(image,
+                                96,
+                                12,
+                                74, 12,
+                                this->width/2-40, this->height-53,
+                                74, 30,
+                                0
+                            );
+        al_draw_text(&font2, al_map_rgb(255,255,255), this-> width/2-44, this->height-20, ALLEGRO_ALIGN_LEFT, pillsinfo.str().c_str());
+    }
+
+
+    else if(this->ready == true) {
+        al_draw_text(&font, al_map_rgb(254,254,33), 210, this->height/2-2, ALLEGRO_ALIGN_LEFT, "GET READY!!");
+        al_draw_text(&font, al_map_rgb(255,255,255), 24, this->height-60, ALLEGRO_ALIGN_LEFT, scoreinfo.str().c_str());
+        al_draw_text(&font, al_map_rgb(255,255,255), this-> width-192, this->height-60, ALLEGRO_ALIGN_LEFT, lifesinfo.str().c_str());
+        for(int i = 0; i < pacman.getLifes(); i++){
+                al_draw_scaled_bitmap(image,
+                                48,
+                                72,
+                                24, 24,
+                                this->width-89 + (25*i), this->height-53,
+                                24, 24,
+                                0
+                            );}
+        al_draw_scaled_bitmap(image,
+                                96,
+                                12,
+                                74, 12,
+                                this->width/2-40, this->height-53,
+                                74, 30,
+                                0
+                            );
+        al_draw_text(&font2, al_map_rgb(255,255,255), this-> width/2-44, this->height-20, ALLEGRO_ALIGN_LEFT, pillsinfo.str().c_str());
+    }
+
 }
 
 void Renderer::drawDeathPacman(PacMan& p1, int i) {
@@ -506,22 +511,151 @@ void Renderer::drawDeathPacman(PacMan& p1, int i) {
                         spritesDeathPacman[i][0],
                         spritesDeathPacman[i][1],
                         24, 24,
-                        (p1.getCoordinateX()*cellWidth), (p1.getCoordinateY()*cellHeight),
+                        cellCenterY - 10, cellCenterX - 10,
                         20, 20,
                         0
                     );
 }
 
-void Renderer::ChangePill(int& framePill) {
-    bool alMassimo = true;
-    bool alMinimo = false;
-
-    if(alMassimo) { framePill++; } else { framePill--;}
-    if(framePill == 8) { alMassimo = false; alMinimo = true; } 
-    else if(framePill == 3) { alMassimo = true; alMinimo = false; }
+void Renderer::ChangePill() {
+    if(alMassimo == true) { this-> framePill++; } else { this-> framePill--;}
+    if(this-> framePill == 6) { alMassimo = false; alMinimo = true; } 
+    else if(this-> framePill == 2) { alMassimo = true; alMinimo = false; }
 
 }
 
-void Renderer::changeEatableFrame(int& eatableFrame) {
-    if(eatableFrame == 0) { eatableFrame = 1; } else { eatableFrame = 0;  }
+void Renderer::drawPillsAndGhostEatable(Map& map) {
+    ALLEGRO_COLOR white   = al_map_rgb(240,240,240);
+    ALLEGRO_BITMAP *image = al_load_bitmap("sprite.png");
+    al_convert_mask_to_alpha(image, al_map_rgb(255,255,255));
+    float halfCellX = this->cellWidth/2;
+    float halfCellY = this->cellHeight/2;
+
+    int spritesGhostEatable[2][2] = {
+        192,96,
+        216,96,
+    };    
+
+
+
+    for(int y = 0; y < 33; y++) {
+        for(int x = 0; x < 30; x++) {
+            float cellCenterX = (this->cellWidth*x)+halfCellX;
+            float cellCenterY = (this->cellHeight*y)+halfCellY;
+
+            if(map.map[y][x] == 15) {            
+                al_draw_filled_circle(cellCenterX, cellCenterY, framePill, white);                            
+            }
+            if(map.map[y][x] == 76){
+                if(this->frameGhostEatable == 0){
+                    al_draw_scaled_bitmap(image,
+                        spritesGhostEatable[0][0],
+                        spritesGhostEatable[0][1],
+                        24, 24,
+                        cellCenterX-10, cellCenterY-10,
+                        20, 20,
+                        0
+                        );
+                }
+                else if(this->frameGhostEatable == 1){
+                    al_draw_scaled_bitmap(image,
+                        spritesGhostEatable[1][0],
+                        spritesGhostEatable[1][1],
+                        24, 24,
+                        cellCenterX-10, cellCenterY-10,
+                        20, 20,
+                        0
+                        );
+                }
+            }
+        }
+    }
+    this->ChangePill();
+    this->changeEatableFrame();
+}
+
+void Renderer::drawMenu(Menu _startMenu, ALLEGRO_FONT &fontL, ALLEGRO_FONT &fontM, ALLEGRO_FONT &fontH, bool _playMusic) {
+    ALLEGRO_BITMAP *image = al_load_bitmap("logomenu.png");
+    al_convert_mask_to_alpha(image, al_map_rgb(255,255,255));
+        stringstream newgame;
+        stringstream sound;
+        stringstream exit;
+        newgame << _startMenu.startMenu[0].getNameButton();
+        sound << _startMenu.startMenu[1].getNameButton();
+        exit << _startMenu.startMenu[2].getNameButton();  
+
+
+        al_draw_scaled_bitmap(image,
+                        0,
+                        0,
+                        796, 466,
+                        0, 10,
+                        this->width, this->height/3 + 150,
+                        0
+                        );
+
+
+        if(_startMenu.startMenu[0].getSelectedButton()){
+            al_draw_text(&fontH, al_map_rgb(255,255,251), (this->width/2), this->height/2 + 100, ALLEGRO_ALIGN_CENTRE, newgame.str().c_str());
+        }
+        else {
+            al_draw_text(&fontM, al_map_rgb(255,255,251), (this->width/2), this->height/2 + 100, ALLEGRO_ALIGN_CENTRE, newgame.str().c_str());
+
+        }
+
+        if(_startMenu.startMenu[1].getSelectedButton()){
+            if(_playMusic)
+                al_draw_text(&fontH, al_map_rgb(161,246,26), (this->width/2), (this->height/2 + 150), ALLEGRO_ALIGN_CENTRE, "SOUND ON");
+            else {
+                al_draw_text(&fontH, al_map_rgb(227,2,8), (this->width/2), (this->height/2 + 150), ALLEGRO_ALIGN_CENTRE, "SOUND OFF");
+            }
+        }
+        else {
+            if(_playMusic)
+                al_draw_text(&fontM, al_map_rgb(161,246,26), (this->width/2), (this->height/2 + 150), ALLEGRO_ALIGN_CENTRE, "SOUND ON");
+            else {
+                al_draw_text(&fontM, al_map_rgb(227,2,8), (this->width/2), (this->height/2 + 150), ALLEGRO_ALIGN_CENTRE, "SOUND OFF");
+            }
+        }   
+        
+        if(_startMenu.startMenu[2].getSelectedButton()){
+            al_draw_text(&fontH, al_map_rgb(255,255,255), (this->width/2), (this->height/2 + 200), ALLEGRO_ALIGN_CENTRE, exit.str().c_str());
+        }
+
+        else {
+            al_draw_text(&fontM, al_map_rgb(255,255,255), (this->width/2), (this->height/2 + 200), ALLEGRO_ALIGN_CENTRE, exit.str().c_str());
+        }
+
+        al_draw_text(&fontL, al_map_rgb(255,255,255), (this->width/2), (this->height), ALLEGRO_ALIGN_CENTRE, "GAME CREATED BY SIMONE LUCA ROSSI & LUIGI PINGITORE");
+
+}
+
+void Renderer::drawFinalMenu(Menu _startMenu, ALLEGRO_FONT &fontM, ALLEGRO_FONT &fontH) {
+        stringstream back;
+        stringstream exit;
+        back << _startMenu.endMenu[0].getNameButton();
+        exit << _startMenu.endMenu[1].getNameButton(); 
+
+
+        //al_draw_text(&font, al_map_rgb(255,255,255), 24, this->height/2-2, ALLEGRO_ALIGN_LEFT, "BACK");
+        //al_draw_text(&font, al_map_rgb(255,255,255), this-> width-105, this->height/2-2, ALLEGRO_ALIGN_LEFT, "EXIT");
+
+        if(_startMenu.endMenu[0].getSelectedButton()){
+            al_draw_text(&fontH, al_map_rgb(255,255,255), 24, this->height/2-2, ALLEGRO_ALIGN_LEFT, "BACK");
+        }
+        else {
+            al_draw_text(&fontM, al_map_rgb(255,255,255), 24, this->height/2-2, ALLEGRO_ALIGN_LEFT, "BACK");
+
+        }
+
+        if(_startMenu.endMenu[1].getSelectedButton()){
+            al_draw_text(&fontH, al_map_rgb(255,255,255), this-> width-105, this->height/2-2, ALLEGRO_ALIGN_LEFT, "EXIT");
+        }
+        else {
+            al_draw_text(&fontM, al_map_rgb(255,255,255), this-> width-105, this->height/2-2, ALLEGRO_ALIGN_LEFT, "EXIT");
+        }   
+}
+
+void Renderer::changeEatableFrame() {
+    if(this->frameGhostEatable == 0) { this->frameGhostEatable = 1; } else { this->frameGhostEatable = 0;  }
 }
